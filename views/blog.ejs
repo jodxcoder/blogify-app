@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title><%= blog.title %></title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %> 
+
+    <div class="container mt-5 blog-container">
+        <h1 class="blog-title"><%= blog.title %></h1>
+        <div class="author-section">
+            <img src="<%= blog.createdBy.profileImage %>" width="60px" height="60px" class="rounded-circle shadow-sm" />
+            <div>
+                <h6 class="mb-0"><%= blog.createdBy.fullname %></h6>
+                <small class="text-muted">Author</small>
+            </div>
+        </div>
+        <img src="<%= blog.coverImageURL %>" class="img-fluid rounded-4 mb-4 shadow" style="width: 100%; max-height: 400px; object-fit: cover;" />
+        <div class="blog-content">
+            <pre><%= blog.content %></pre>
+        </div>
+    </div>
+
+    <div class="container mt-5" style="max-width: 800px;">
+        <h4 class="mb-4 fw-bold">Comments (<%= comments.length %>)</h4>
+        <% if (locals.user) { %>
+            <div class="comment-input-group mb-4">
+                <form action="/blog/comment/<%= blog._id %>" method="post">
+                    <div class="mb-3">
+                        <textarea name="content" class="form-control" rows="3" placeholder="Write a thoughtful comment..."></textarea>
+                    </div>
+                    <button class="btn btn-primary px-4 py-2" type="submit">Post Comment</button>
+                </form>
+            </div>
+        <% } %>
+
+        <div class="comments-list mt-4">
+            <% comments.forEach(comment => { %>
+                <div class="comment-card d-flex align-items-start">
+                    <img src="<%= comment.createdBy.profileImage %>" width="45px" height="45px" class="rounded-circle me-3 border shadow-sm" />
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="fw-bold"><%= comment.createdBy.fullname %></span>
+                            <small class="text-muted">Just now</small>
+                        </div>
+                        <p class="mb-0 text-secondary"><%= comment.content %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <%- include('./partials/scripts') %> 
+    
+</body>
+
+</html>
