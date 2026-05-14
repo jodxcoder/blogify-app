@@ -8,6 +8,11 @@ const cookieParser = require('cookie-parser')
 const { checkForAuthenticationCookie } = require('./middlewares/auth')
 
 const app=express()
+const fs = require('fs');
+const uploadDir = path.resolve('./public/uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 const port=process.env.PORT ||8000
 
 mongoose.connect(process.env.MONGO_URL).then(()=>{
